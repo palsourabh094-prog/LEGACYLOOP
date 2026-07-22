@@ -12,6 +12,10 @@ A single-file marketing site for **LegacyLoop**, an AI industrial knowledge plat
 
 That's it. `index.html` is fully self-contained (only external dependency is Google Fonts over CDN). Double-click it to open locally, or deploy it anywhere that serves static files.
 
+## Live site
+
+👉 **[legacyloop-two.vercel.app](https://legacyloop-two.vercel.app)**
+
 ## Run locally
 
 Just open the file:
