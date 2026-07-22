@@ -1,0 +1,31 @@
+OISD-105 — Work Permit System and Confined Space Entry (Excerpt)
+
+Section 3 — Confined Space Entry Requirements
+
+3.1 Permit-to-Work
+No person shall enter a confined space without a valid entry permit issued
+and signed by the designated issuing authority. The permit shall record the
+vessel identity, the scope of work, the validity window, and the names of the
+issuing and performing authorities. The permit is valid for a single shift.
+
+3.2 Atmospheric Gas Testing
+Before entry, the atmosphere shall be tested for oxygen (19.5 to 23.5 percent),
+flammable gas (LEL below 5 percent), hydrogen sulphide, and carbon monoxide.
+Readings shall be logged with the time of measurement. Testing shall be
+repeated at defined intervals and the results retained with the permit.
+
+3.3 Standby Attendant
+A trained standby attendant shall be assigned by name and stationed at the
+entry point for the entire duration of the entry. The attendant maintains a
+headcount and continuous communication with the entrants.
+
+3.4 Continuous Monitoring and Rescue Readiness
+Continuous atmosphere monitoring shall be maintained throughout the entry.
+Any interruption in monitoring is a reportable deviation and must be
+investigated. Rescue equipment, including retrieval and breathing apparatus,
+shall be staged and its checklist signed before entry begins.
+
+3.5 Closure
+On completion, the performing authority verifies the headcount, withdraws all
+entrants, and returns the permit to the issuing authority for closure and
+sign-off. Closed permits are retained for audit.

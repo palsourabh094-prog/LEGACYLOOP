@@ -1,0 +1,423 @@
+{
+  "nodes": [
+    {
+      "id": "equip:P-204",
+      "type": "equipment",
+      "label": "P-204",
+      "mentioned_in": [
+        "Incident-2023-04-17::p1::c0",
+        "MO-P204-2024::p1::c0",
+        "MO-P204-2024::p2::c0",
+        "MO-P204-2024::p3::c0",
+        "veteran-interview-RK-Sharma::p1::c3",
+        "veteran-interview-RK-Sharma::p1::c4",
+        "veteran-interview-RK-Sharma::p1::c5"
+      ]
+    },
+    {
+      "id": "fail:bearing failure",
+      "type": "failure_mode",
+      "label": "bearing failure",
+      "mentioned_in": [
+        "Incident-2023-04-17::p1::c0"
+      ]
+    },
+    {
+      "id": "fail:vibration",
+      "type": "failure_mode",
+      "label": "vibration",
+      "mentioned_in": [
+        "Incident-2023-04-17::p1::c0",
+        "MO-P204-2024::p1::c0",
+        "MO-P204-2024::p2::c0",
+        "MO-P204-2024::p3::c0",
+        "SOP-VIB-A::p1::c0",
+        "SOP-VIB-A::p2::c0",
+        "veteran-interview-RK-Sharma::p1::c5"
+      ]
+    },
+    {
+      "id": "fail:trip",
+      "type": "failure_mode",
+      "label": "trip",
+      "mentioned_in": [
+        "Incident-2023-04-17::p1::c0",
+        "MO-P204-2024::p2::c0",
+        "MO-P204-2024::p3::c0",
+        "Permit-2024-11-08::p3::c0",
+        "SOP-VIB-A::p1::c0"
+      ]
+    },
+    {
+      "id": "fail:high vibration",
+      "type": "failure_mode",
+      "label": "high vibration",
+      "mentioned_in": [
+        "Incident-2023-04-17::p1::c0",
+        "MO-P204-2024::p3::c0"
+      ]
+    },
+    {
+      "id": "person:Kirloskar",
+      "type": "person",
+      "label": "Kirloskar",
+      "mentioned_in": [
+        "MO-P204-2024::p1::c0"
+      ]
+    },
+    {
+      "id": "person:Maintenance Manual",
+      "type": "person",
+      "label": "Maintenance Manual",
+      "mentioned_in": [
+        "MO-P204-2024::p1::c0",
+        "MO-P204-2024::p2::c0",
+        "MO-P204-2024::p3::c0"
+      ]
+    },
+    {
+      "id": "fail:lubrication failure",
+      "type": "failure_mode",
+      "label": "lubrication failure",
+      "mentioned_in": [
+        "MO-P204-2024::p2::c0"
+      ]
+    },
+    {
+      "id": "proc:inspection checklist",
+      "type": "procedure",
+      "label": "inspection checklist",
+      "mentioned_in": [
+        "MO-P204-2024::p2::c0"
+      ]
+    },
+    {
+      "id": "person:Alert 4.5 - 7.1 Investigate",
+      "type": "person",
+      "label": "Alert 4.5 - 7.1 Investigate",
+      "mentioned_in": [
+        "MO-P204-2024::p2::c0"
+      ]
+    },
+    {
+      "id": "reg:OISD-105",
+      "type": "regulation",
+      "label": "OISD-105",
+      "mentioned_in": [
+        "OISD-105-confined-space::p1::c0",
+        "SOP-VIB-A::p1::c0",
+        "SOP-VIB-A::p2::c0"
+      ]
+    },
+    {
+      "id": "proc:its checklist",
+      "type": "procedure",
+      "label": "its checklist",
+      "mentioned_in": [
+        "OISD-105-confined-space::p1::c5"
+      ]
+    },
+    {
+      "id": "equip:V-401A",
+      "type": "equipment",
+      "label": "V-401A",
+      "mentioned_in": [
+        "Permit-2024-11-08::p1::c0",
+        "Permit-2024-11-08::p2::c0",
+        "Permit-2024-11-08::p3::c0"
+      ]
+    },
+    {
+      "id": "fail:surge",
+      "type": "failure_mode",
+      "label": "surge",
+      "mentioned_in": [
+        "Permit-2024-11-08::p1::c0"
+      ]
+    },
+    {
+      "id": "proc:v-401a 3.2 gas test log time o2% lel% h2s ppm co",
+      "type": "procedure",
+      "label": "v-401a 3.2 gas test log time o2% lel% h2s ppm co",
+      "mentioned_in": [
+        "Permit-2024-11-08::p2::c0"
+      ]
+    },
+    {
+      "id": "person:Continuous Monitoring Continuous",
+      "type": "person",
+      "label": "Continuous Monitoring Continuous",
+      "mentioned_in": [
+        "Permit-2024-11-08::p2::c0"
+      ]
+    },
+    {
+      "id": "proc:procedure",
+      "type": "procedure",
+      "label": "procedure",
+      "mentioned_in": [
+        "SOP-VIB-A::p1::c0"
+      ]
+    },
+    {
+      "id": "proc:sop-vib-a page",
+      "type": "procedure",
+      "label": "sop-vib-a page",
+      "mentioned_in": [
+        "SOP-VIB-A::p1::c0",
+        "SOP-VIB-A::p2::c0"
+      ]
+    },
+    {
+      "id": "proc:sop-vib-a \u2014 high-vibration response purpose standard operating procedure sop-vib-a defines",
+      "type": "procedure",
+      "label": "sop-vib-a \u2014 high-vibration response purpose standard operating procedure sop-vib-a defines",
+      "mentioned_in": [
+        "SOP-VIB-A::p1::c0"
+      ]
+    },
+    {
+      "id": "proc:sop-vib-a \u2014 high-vibration response escalation",
+      "type": "procedure",
+      "label": "sop-vib-a \u2014 high-vibration response escalation",
+      "mentioned_in": [
+        "SOP-VIB-A::p2::c0"
+      ]
+    },
+    {
+      "id": "proc:the inspection checklist",
+      "type": "procedure",
+      "label": "the inspection checklist",
+      "mentioned_in": [
+        "SOP-VIB-A::p2::c0"
+      ]
+    },
+    {
+      "id": "equip:C-11",
+      "type": "equipment",
+      "label": "C-11",
+      "mentioned_in": [
+        "compressor-C11-history::p1::c0",
+        "compressor-C11-history::p2::c0",
+        "compressor-C11-history::p3::c0",
+        "compressor-C11-history::p4::c0",
+        "compressor-C11-history::p5::c0",
+        "compressor-C11-history::p6::c0",
+        "compressor-C11-history::p7::c0",
+        "compressor-C11-history::p8::c0",
+        "compressor-C11-history::p9::c0",
+        "compressor-C11-history::p10::c0",
+        "compressor-C11-history::p11::c0",
+        "compressor-C11-history::p12::c0",
+        "compressor-C11-history::p13::c0",
+        "compressor-C11-history::p14::c0",
+        "compressor-C11-history::p15::c0",
+        "compressor-C11-history::p16::c0",
+        "compressor-C11-history::p17::c0",
+        "compressor-C11-history::p18::c0",
+        "compressor-C11-history::p19::c0",
+        "compressor-C11-history::p20::c0",
+        "compressor-C11-history::p21::c0",
+        "compressor-C11-history::p22::c0",
+        "compressor-C11-history::p23::c0",
+        "compressor-C11-history::p24::c0",
+        "veteran-interview-RK-Sharma::p1::c7",
+        "veteran-interview-RK-Sharma::p1::c8"
+      ]
+    },
+    {
+      "id": "person:C-11",
+      "type": "person",
+      "label": "C-11",
+      "mentioned_in": [
+        "compressor-C11-history::p1::c0",
+        "compressor-C11-history::p2::c0",
+        "compressor-C11-history::p3::c0",
+        "compressor-C11-history::p4::c0",
+        "compressor-C11-history::p5::c0",
+        "compressor-C11-history::p6::c0",
+        "compressor-C11-history::p7::c0",
+        "compressor-C11-history::p8::c0",
+        "compressor-C11-history::p9::c0",
+        "compressor-C11-history::p10::c0",
+        "compressor-C11-history::p11::c0",
+        "compressor-C11-history::p12::c0",
+        "compressor-C11-history::p13::c0",
+        "compressor-C11-history::p14::c0",
+        "compressor-C11-history::p15::c0",
+        "compressor-C11-history::p16::c0",
+        "compressor-C11-history::p17::c0",
+        "compressor-C11-history::p18::c0",
+        "compressor-C11-history::p19::c0",
+        "compressor-C11-history::p20::c0",
+        "compressor-C11-history::p21::c0",
+        "compressor-C11-history::p22::c0",
+        "compressor-C11-history::p23::c0",
+        "compressor-C11-history::p24::c0"
+      ]
+    },
+    {
+      "id": "person:M. Iyer",
+      "type": "person",
+      "label": "M. Iyer",
+      "mentioned_in": [
+        "compressor-C11-history::p1::c0",
+        "compressor-C11-history::p5::c0",
+        "compressor-C11-history::p9::c0",
+        "compressor-C11-history::p13::c0",
+        "compressor-C11-history::p17::c0",
+        "compressor-C11-history::p21::c0"
+      ]
+    },
+    {
+      "id": "person:P. Nair",
+      "type": "person",
+      "label": "P. Nair",
+      "mentioned_in": [
+        "compressor-C11-history::p3::c0",
+        "compressor-C11-history::p7::c0",
+        "compressor-C11-history::p11::c0",
+        "compressor-C11-history::p15::c0",
+        "compressor-C11-history::p19::c0",
+        "compressor-C11-history::p23::c0"
+      ]
+    },
+    {
+      "id": "person:A. Rao",
+      "type": "person",
+      "label": "A. Rao",
+      "mentioned_in": [
+        "compressor-C11-history::p4::c0",
+        "compressor-C11-history::p8::c0",
+        "compressor-C11-history::p12::c0",
+        "compressor-C11-history::p16::c0",
+        "compressor-C11-history::p20::c0",
+        "compressor-C11-history::p24::c0"
+      ]
+    },
+    {
+      "id": "person:R.K. Sharma",
+      "type": "person",
+      "label": "R.K. Sharma",
+      "mentioned_in": [
+        "veteran-interview-RK-Sharma::p1::c0"
+      ]
+    },
+    {
+      "id": "person:Veteran Interview",
+      "type": "person",
+      "label": "Veteran Interview",
+      "mentioned_in": [
+        "veteran-interview-RK-Sharma::p1::c0"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source_node": "equip:P-204",
+      "target_node": "fail:bearing failure",
+      "relation": "failed_with",
+      "evidence_chunk": "Incident-2023-04-17::p1::c0"
+    },
+    {
+      "source_node": "equip:P-204",
+      "target_node": "fail:vibration",
+      "relation": "failed_with",
+      "evidence_chunk": "Incident-2023-04-17::p1::c0"
+    },
+    {
+      "source_node": "equip:P-204",
+      "target_node": "fail:trip",
+      "relation": "failed_with",
+      "evidence_chunk": "Incident-2023-04-17::p1::c0"
+    },
+    {
+      "source_node": "equip:P-204",
+      "target_node": "fail:high vibration",
+      "relation": "failed_with",
+      "evidence_chunk": "Incident-2023-04-17::p1::c0"
+    },
+    {
+      "source_node": "person:Kirloskar",
+      "target_node": "equip:P-204",
+      "relation": "knows_about",
+      "evidence_chunk": "MO-P204-2024::p1::c0"
+    },
+    {
+      "source_node": "person:Maintenance Manual",
+      "target_node": "equip:P-204",
+      "relation": "knows_about",
+      "evidence_chunk": "MO-P204-2024::p1::c0"
+    },
+    {
+      "source_node": "equip:P-204",
+      "target_node": "fail:lubrication failure",
+      "relation": "failed_with",
+      "evidence_chunk": "MO-P204-2024::p2::c0"
+    },
+    {
+      "source_node": "equip:P-204",
+      "target_node": "proc:inspection checklist",
+      "relation": "has_procedure",
+      "evidence_chunk": "MO-P204-2024::p2::c0"
+    },
+    {
+      "source_node": "person:Alert 4.5 - 7.1 Investigate",
+      "target_node": "equip:P-204",
+      "relation": "knows_about",
+      "evidence_chunk": "MO-P204-2024::p2::c0"
+    },
+    {
+      "source_node": "equip:V-401A",
+      "target_node": "fail:surge",
+      "relation": "failed_with",
+      "evidence_chunk": "Permit-2024-11-08::p1::c0"
+    },
+    {
+      "source_node": "equip:V-401A",
+      "target_node": "proc:v-401a 3.2 gas test log time o2% lel% h2s ppm co",
+      "relation": "has_procedure",
+      "evidence_chunk": "Permit-2024-11-08::p2::c0"
+    },
+    {
+      "source_node": "person:Continuous Monitoring Continuous",
+      "target_node": "equip:V-401A",
+      "relation": "knows_about",
+      "evidence_chunk": "Permit-2024-11-08::p2::c0"
+    },
+    {
+      "source_node": "equip:V-401A",
+      "target_node": "fail:trip",
+      "relation": "failed_with",
+      "evidence_chunk": "Permit-2024-11-08::p3::c0"
+    },
+    {
+      "source_node": "person:C-11",
+      "target_node": "equip:C-11",
+      "relation": "knows_about",
+      "evidence_chunk": "compressor-C11-history::p1::c0"
+    },
+    {
+      "source_node": "person:M. Iyer",
+      "target_node": "equip:C-11",
+      "relation": "knows_about",
+      "evidence_chunk": "compressor-C11-history::p1::c0"
+    },
+    {
+      "source_node": "person:P. Nair",
+      "target_node": "equip:C-11",
+      "relation": "knows_about",
+      "evidence_chunk": "compressor-C11-history::p3::c0"
+    },
+    {
+      "source_node": "person:A. Rao",
+      "target_node": "equip:C-11",
+      "relation": "knows_about",
+      "evidence_chunk": "compressor-C11-history::p4::c0"
+    }
+  ],
+  "stats": {
+    "nodes": 28,
+    "edges": 17
+  }
+}

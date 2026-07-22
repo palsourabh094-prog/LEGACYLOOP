@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Data / Chroma
+LegacyLoop/data/processed/chroma/
+*.sqlite3
+*.bin
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Claude
+.claude/
+*.log
+
+# Environment
+.env
+.env.local

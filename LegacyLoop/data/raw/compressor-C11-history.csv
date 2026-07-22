@@ -1,0 +1,25 @@
+date,work_order,equipment_tag,symptom,action_taken,technician,downtime_hrs
+2022-01-12,WO-2201,C-11,routine PM,greasing and inspection,M. Iyer,1.0
+2022-02-15,WO-2202,C-11,routine PM,greasing and inspection,S. Deshmukh,1.0
+2022-03-20,WO-2203,C-11,routine PM,greasing and inspection,P. Nair,1.0
+2022-04-18,WO-2204,C-11,"high discharge temp, filter dP high",inlet-filter replacement,A. Rao,8.0
+2022-05-22,WO-2205,C-11,routine PM,greasing and inspection,M. Iyer,1.0
+2022-06-25,WO-2206,C-11,routine PM,greasing and inspection,S. Deshmukh,1.0
+2022-07-14,WO-2207,C-11,routine PM,greasing and inspection,P. Nair,1.0
+2022-08-16,WO-2208,C-11,"high discharge temp, filter dP high",inlet-filter replacement,A. Rao,8.0
+2022-09-19,WO-2209,C-11,routine PM,greasing and inspection,M. Iyer,1.0
+2022-10-21,WO-2210,C-11,routine PM,greasing and inspection,S. Deshmukh,1.0
+2022-11-23,WO-2211,C-11,routine PM,greasing and inspection,P. Nair,1.0
+2022-12-14,WO-2212,C-11,"high discharge temp, filter dP high",inlet-filter replacement,A. Rao,8.0
+2023-01-17,WO-2213,C-11,routine PM,greasing and inspection,M. Iyer,1.0
+2023-02-19,WO-2214,C-11,routine PM,greasing and inspection,S. Deshmukh,1.0
+2023-03-22,WO-2215,C-11,routine PM,greasing and inspection,P. Nair,1.0
+2023-04-15,WO-2216,C-11,"high discharge temp, filter dP high",inlet-filter replacement,A. Rao,8.0
+2023-05-18,WO-2217,C-11,routine PM,greasing and inspection,M. Iyer,1.0
+2023-06-20,WO-2218,C-11,routine PM,greasing and inspection,S. Deshmukh,1.0
+2023-07-13,WO-2219,C-11,routine PM,greasing and inspection,P. Nair,1.0
+2023-08-15,WO-2220,C-11,"high discharge temp, filter dP high",inlet-filter replacement,A. Rao,8.0
+2023-09-18,WO-2221,C-11,routine PM,greasing and inspection,M. Iyer,1.0
+2023-10-20,WO-2222,C-11,routine PM,greasing and inspection,S. Deshmukh,1.0
+2023-11-22,WO-2223,C-11,routine PM,greasing and inspection,P. Nair,1.0
+2023-12-12,WO-2224,C-11,"high discharge temp, filter dP high",inlet-filter replacement,A. Rao,8.0

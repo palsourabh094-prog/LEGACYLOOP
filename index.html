@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LegacyLoop — The Memory Layer for Industrial India</title>
+<meta name="description" content="LegacyLoop captures 30 years of tribal engineering knowledge before it retires — and puts it in the pocket of every field technician, with cited answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --canvas:#F5F3EE;
+    --dark:#0B0B0C;
+    --ink:#111111;
+    --muted:#4A4A4A;
+    --amber:#E4572E;
+    --blueprint:#1B3A57;
+    --blueprint-lt:#3D6489;
+    --success:#0F5132;
+    --rule:rgba(17,17,17,.16);
+    --maxw:1280px;
+    --maxw-bleed:1440px;
+    --gutter:80px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:64px}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  }
+  body{
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:17px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--amber);color:#fff}
+
+  .serif{font-family:'Fraunces',Georgia,serif;letter-spacing:-.02em}
+  .mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter)}
+  .wrap-bleed{max-width:var(--maxw-bleed);margin:0 auto;padding:0 var(--gutter)}
+  @media (max-width:900px){
+    .wrap,.wrap-bleed{padding:0 24px}
+  }
+
+  /* ---------- Loop line ---------- */
+  #loopline{
+    position:absolute;top:0;left:0;width:100%;height:100%;
+    pointer-events:none;z-index:1;overflow:visible;
+  }
+  #loopline path{
+    fill:none;stroke:var(--amber);stroke-width:1px;
+  }
+  @media (max-width:1100px){#loopline{display:none}}
+
+  /* ---------- Reveal ---------- */
+  .reveal{opacity:0;transform:translateY(8px);transition:opacity .4s ease-out,transform .4s ease-out}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none}
+  }
+
+  /* ---------- Nav ---------- */
+  header.nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    background:rgba(245,243,238,.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--rule);
+  }
+  .nav-inner{
+    max-width:var(--maxw-bleed);margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+    height:56px;padding:0 32px;
+  }
+  .wordmark{
+    display:flex;align-items:center;gap:10px;
+    font-family:'JetBrains Mono',monospace;font-weight:700;
+    font-size:13px;letter-spacing:.14em;color:var(--ink);text-decoration:none;
+  }
+  .nav-links{display:flex;gap:28px;list-style:none}
+  .nav-links a{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.04em;
+    color:var(--muted);text-decoration:none;
+  }
+  .nav-links a:hover{color:var(--amber)}
+  .btn{
+    display:inline-block;background:var(--amber);color:#fff;
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;
+    letter-spacing:.03em;padding:11px 22px;border:1px solid var(--amber);
+    text-decoration:none;cursor:pointer;transition:background .2s ease-out;
+  }
+  .btn:hover{background:#c94a25;border-color:#c94a25}
+  .btn-sm{padding:8px 16px;font-size:12px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .btn-ghost{
+    background:transparent;color:var(--ink);border:1px solid var(--ink);
+  }
+  .btn-ghost:hover{background:var(--ink);color:var(--canvas);border-color:var(--ink)}
+  @media (max-width:900px){.nav-links{display:none}}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;padding:180px 0 96px;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);
+    gap:64px;align-items:end;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.18em;
+    color:var(--muted);text-transform:uppercase;text-align:center;
+    margin-bottom:40px;
+  }
+  .hero h1{
+    font-family:'Fraunces',Georgia,serif;font-weight:700;letter-spacing:-.02em;
+    font-size:clamp(56px,7.4vw,168px);
+    line-height:.98;
+  }
+  .hero h1 em{font-style:italic;color:var(--amber)}
+  .hero-sub{
+    margin-top:32px;max-width:520px;color:var(--muted);font-size:18px;
+  }
+  .hero-ctas{margin-top:40px;display:flex;gap:16px;flex-wrap:wrap}
+  .terminal{
+    border:1px solid var(--ink);background:#EFEDE6;
+    font-family:'JetBrains Mono',monospace;font-size:13px;
+  }
+  .terminal-bar{
+    border-bottom:1px solid var(--ink);padding:8px 14px;
+    display:flex;align-items:center;justify-content:space-between;
+    font-size:11px;letter-spacing:.06em;color:var(--muted);
+  }
+  .live-dot{
+    display:inline-block;width:6px;height:6px;border-radius:50%;
+    background:var(--amber);margin-right:6px;
+    animation:pulse 2s ease-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+  .terminal-body{padding:18px 14px;display:grid;gap:16px}
+  .t-row .t-key{color:var(--muted);font-size:11px;letter-spacing:.02em;word-break:break-all}
+  .t-row .t-val{color:var(--ink);font-size:22px;font-weight:700;margin-top:2px}
+  .t-row .t-val .caret{color:var(--amber);animation:pulse 1.1s step-end infinite}
+  .hero-rule{
+    border:none;height:1px;background:var(--amber);margin-top:88px;
+  }
+  @media (max-width:900px){
+    .hero{padding:140px 0 64px}
+    .hero-grid{grid-template-columns:1fr;gap:48px;align-items:start}
+  }
+
+  /* ---------- Section scaffolding ---------- */
+  section.block{position:relative;padding:120px 0;scroll-margin-top:64px}
+  .sec-mark{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;
+    color:var(--muted);margin-bottom:48px;
+  }
+  .sec-mark b{color:var(--amber);font-weight:500}
+  .sec-title{
+    font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.02em;
+    font-size:clamp(32px,4vw,56px);line-height:1.05;max-width:840px;
+    margin-bottom:24px;
+  }
+  .sec-lede{color:var(--muted);max-width:640px;font-size:18px}
+  @media (max-width:900px){section.block{padding:80px 0}}
+
+  /* ---------- 01 Cliff ---------- */
+  .cliff-cards{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px;
+  }
+  .cliff-card{
+    border:1px solid var(--ink);padding:40px 28px 28px;
+    display:flex;flex-direction:column;min-height:420px;background:var(--canvas);
+  }
+  .cliff-num{
+    font-family:'JetBrains Mono',monospace;font-weight:700;
+    font-size:clamp(72px,7.5vw,144px);line-height:1;letter-spacing:-.04em;
+    color:var(--ink);
+  }
+  .cliff-num small{font-size:.42em;font-weight:500;color:var(--amber)}
+  .cliff-label{
+    font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.01em;
+    font-size:21px;line-height:1.25;margin-top:24px;
+  }
+  .cliff-src{
+    margin-top:auto;padding-top:32px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);
+  }
+  .cliff-coda{
+    margin-top:64px;font-family:'Fraunces',Georgia,serif;font-style:italic;
+    font-size:clamp(22px,2.4vw,30px);letter-spacing:-.01em;max-width:720px;
+  }
+  @media (max-width:900px){
+    .cliff-cards{grid-template-columns:1fr}
+    .cliff-card{min-height:0}
+  }
+
+  /* ---------- 02 Comparison ---------- */
+  .cmp-scroll{overflow-x:auto;margin-top:56px;border:1px solid var(--ink)}
+  table.cmp{
+    width:100%;border-collapse:collapse;min-width:760px;background:var(--canvas);
+  }
+  .cmp th,.cmp td{
+    border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);
+    padding:18px 20px;text-align:left;font-size:15px;vertical-align:middle;
+  }
+  .cmp th:last-child,.cmp td:last-child{border-right:none}
+  .cmp tr:last-child td{border-bottom:none}
+  .cmp thead th{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.05em;
+    color:var(--muted);font-weight:500;border-bottom:1px solid var(--ink);
+  }
+  .cmp thead th.us{color:var(--ink);font-weight:700;background:#EFEDE6}
+  .cmp td.us{background:#EFEDE6}
+  .cmp .row-label{font-weight:500;color:var(--ink);width:34%}
+  .tick{color:var(--amber);font-weight:700;font-family:'JetBrains Mono',monospace;font-size:16px}
+  .cross{color:var(--muted);font-family:'JetBrains Mono',monospace}
+  .cmp-coda{
+    margin-top:80px;font-family:'Fraunces',Georgia,serif;font-weight:700;
+    letter-spacing:-.02em;font-size:clamp(40px,6vw,96px);line-height:1.02;
+    max-width:1000px;
+  }
+  .cmp-coda span{color:var(--amber)}
+
+  /* ---------- 03 Platform ---------- */
+  .pillars{
+    display:grid;grid-template-columns:1fr 40px 1fr 40px 1fr 40px 1fr;
+    gap:0;align-items:stretch;margin-top:64px;
+  }
+  .pillar{
+    border:1px solid var(--ink);background:var(--canvas);
+    text-align:left;cursor:pointer;padding:28px 24px;
+    font:inherit;color:inherit;display:flex;flex-direction:column;gap:16px;
+    transition:background .2s ease-out;
+  }
+  .pillar:hover{background:#EFEDE6}
+  .pillar .p-icon svg{display:block}
+  .pillar .p-step{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;
+  }
+  .pillar .p-label{
+    font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:22px;letter-spacing:-.01em;line-height:1.15;
+  }
+  .pillar .p-one{font-size:14px;color:var(--muted)}
+  .pillar .p-body{
+    font-size:14.5px;color:var(--ink);line-height:1.55;
+    max-height:0;overflow:hidden;transition:max-height .4s ease-out,opacity .4s ease-out;opacity:0;
+  }
+  .pillar[aria-expanded="true"] .p-body{max-height:300px;opacity:1}
+  .pillar .p-more{
+    margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);letter-spacing:.05em;
+  }
+  .pillar-arrow{display:flex;align-items:center;justify-content:center}
+  .pillar-arrow svg{width:100%;overflow:visible}
+  .draw-line{
+    stroke:var(--amber);stroke-width:1;fill:none;
+    stroke-dasharray:60;stroke-dashoffset:60;
+    transition:stroke-dashoffset .6s ease-out;
+  }
+  .in .draw-line,.drawn .draw-line{stroke-dashoffset:0}
+  @media (max-width:1000px){
+    .pillars{grid-template-columns:1fr}
+    .pillar-arrow{height:40px}
+    .pillar-arrow svg{width:24px;transform:rotate(90deg)}
+  }
+
+  /* ---------- 04 Demo ---------- */
+  .demo-shell{
+    border:1px solid var(--ink);margin-top:56px;background:#EFEDE6;
+  }
+  .demo-head{
+    display:flex;align-items:center;justify-content:space-between;
+    border-bottom:1px solid var(--ink);padding:12px 20px;
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.05em;
+  }
+  .demo-head .path{color:var(--muted)}
+  .demo-head .path b{color:var(--ink);font-weight:700}
+  .demo-chips{
+    display:flex;flex-wrap:wrap;gap:12px;padding:24px 20px;
+    border-bottom:1px solid var(--ink);
+  }
+  .chip{
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.45;
+    border:1px solid var(--ink);background:var(--canvas);color:var(--ink);
+    padding:10px 14px;cursor:pointer;text-align:left;max-width:360px;
+    transition:background .2s ease-out,color .2s ease-out,border-color .2s ease-out;
+  }
+  .chip:hover,.chip.active{background:var(--amber);border-color:var(--amber);color:#fff}
+  .demo-response{
+    min-height:340px;padding:28px 24px;background:var(--canvas);
+  }
+  .resp-placeholder{
+    font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);
+  }
+  .resp-q{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:20px;
+  }
+  .resp-q b{color:var(--amber);font-weight:500}
+  .resp-body{font-size:15.5px;line-height:1.65;max-width:820px}
+  .resp-body p{margin-bottom:14px}
+  .resp-body ol{margin:0 0 14px 22px}
+  .resp-body li{margin-bottom:12px}
+  .cite{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10.5px;
+    border:1px solid var(--rule);color:var(--muted);padding:1px 6px;margin:0 2px;
+    white-space:nowrap;vertical-align:baseline;background:#EFEDE6;
+  }
+  .resp-sources{
+    margin-top:28px;padding-top:20px;border-top:1px solid var(--rule);
+  }
+  .resp-sources .src-label{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;
+    color:var(--muted);text-transform:uppercase;margin-bottom:14px;
+  }
+  .src-strip{display:flex;gap:16px;flex-wrap:wrap}
+  .src-doc{width:96px}
+  .src-doc svg{display:block;width:100%;border:1px solid var(--rule);background:#fff}
+  .src-doc .src-name{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--muted);
+    margin-top:6px;word-break:break-all;line-height:1.35;
+  }
+  .resp-meta{
+    margin-top:24px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);
+  }
+  .resp-meta .ok{color:var(--success)}
+  .type-caret{color:var(--amber);animation:pulse .9s step-end infinite}
+
+  /* ---------- 05 Architecture (dark) ---------- */
+  .arch{
+    background:var(--dark);color:#F5F3EE;padding:120px 0;position:relative;z-index:2;
+  }
+  .arch .sec-mark{color:rgba(245,243,238,.5)}
+  .arch .sec-title{color:#F5F3EE}
+  .arch .sec-lede{color:rgba(245,243,238,.6)}
+  .arch-diagram{margin-top:64px;overflow-x:auto}
+  .arch-diagram svg{display:block;min-width:900px;width:100%;height:auto}
+  .arch-node{fill:rgba(27,58,87,.28);stroke:var(--blueprint-lt);stroke-width:1}
+  .arch-node-label{
+    font-family:'JetBrains Mono',monospace;font-size:12px;fill:#F5F3EE;
+  }
+  .arch-node-sub{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;fill:rgba(245,243,238,.55);
+  }
+  .arch-wire{
+    stroke:var(--amber);stroke-width:1;fill:none;
+    stroke-dasharray:600;stroke-dashoffset:600;
+    transition:stroke-dashoffset 1.2s ease-out;
+  }
+  .arch-diagram.drawn .arch-wire{stroke-dashoffset:0}
+  .arch-cols{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:80px;
+  }
+  .arch-col h3{
+    font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:22px;
+    letter-spacing:-.01em;margin-bottom:12px;
+  }
+  .arch-col h3::before{
+    content:"— ";color:var(--amber);
+  }
+  .arch-col p{font-size:15px;color:rgba(245,243,238,.65);line-height:1.6}
+  @media (max-width:900px){.arch-cols{grid-template-columns:1fr;gap:32px}}
+
+  /* ---------- 06 Loop in practice ---------- */
+  .timeline{margin-top:64px;position:relative;max-width:760px}
+  .tl-card{
+    border:1px solid var(--ink);background:var(--canvas);
+    padding:28px 28px 24px;position:relative;margin-left:56px;
+  }
+  .tl-card + .tl-card{margin-top:56px}
+  .tl-card::before{
+    content:"";position:absolute;left:-56px;top:36px;width:40px;height:1px;background:var(--amber);
+  }
+  .tl-card::after{
+    content:"";position:absolute;left:-60px;top:32px;width:9px;height:9px;
+    border:1px solid var(--amber);background:var(--canvas);border-radius:50%;
+  }
+  .timeline::before{
+    content:"";position:absolute;left:-4px;top:36px;bottom:36px;width:1px;background:var(--amber);
+    left:0px;
+  }
+  .tl-stamp{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);
+    letter-spacing:.06em;margin-bottom:10px;
+  }
+  .tl-title{
+    font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:26px;letter-spacing:-.01em;margin-bottom:10px;
+  }
+  .tl-copy{font-size:15.5px;color:var(--muted);max-width:560px}
+  @media (max-width:600px){
+    .tl-card{margin-left:32px}
+    .tl-card::before{left:-32px;width:22px}
+    .tl-card::after{left:-36px}
+  }
+
+  /* ---------- 07 Impact ---------- */
+  .impact-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:64px;
+  }
+  .impact-block{border-top:1px solid var(--ink);padding-top:20px}
+  .impact-num{
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:clamp(34px,3.4vw,52px);
+    letter-spacing:-.03em;line-height:1.05;
+  }
+  .impact-num .unit{font-size:.45em;font-weight:500;color:var(--muted);letter-spacing:0}
+  .impact-label{margin-top:10px;font-size:14px;color:var(--muted)}
+  .impact-note{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);margin-top:6px}
+  .industries{
+    display:grid;grid-template-columns:repeat(8,1fr);gap:16px;margin-top:88px;
+  }
+  .ind{
+    border:1px solid var(--rule);padding:20px 8px 14px;text-align:center;
+  }
+  .ind svg{display:block;margin:0 auto 10px;stroke:var(--blueprint);fill:none;stroke-width:1.2}
+  .ind span{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.05em}
+  @media (max-width:1000px){
+    .impact-grid{grid-template-columns:repeat(2,1fr)}
+    .industries{grid-template-columns:repeat(4,1fr)}
+  }
+  @media (max-width:520px){
+    .industries{grid-template-columns:repeat(2,1fr)}
+  }
+
+  /* ---------- 08 TAM ---------- */
+  .tam{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+  .tam-eq{
+    font-family:'JetBrains Mono',monospace;font-weight:700;
+    font-size:clamp(20px,3.2vw,44px);letter-spacing:-.02em;line-height:1.3;
+    margin-top:56px;
+  }
+  .tam-eq .op{color:var(--muted);font-weight:400}
+  .tam-eq .result{color:var(--amber)}
+  .tam-note{
+    margin-top:40px;font-family:'Fraunces',Georgia,serif;font-style:italic;
+    font-size:clamp(19px,2vw,24px);letter-spacing:-.01em;max-width:680px;color:var(--ink);
+  }
+
+  /* ---------- 09 Trust ---------- */
+  .trust-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px;
+  }
+  .trust-badge{
+    border:1px solid var(--ink);padding:18px 20px;
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.03em;
+    display:flex;align-items:center;gap:12px;
+  }
+  .trust-badge::before{
+    content:"";width:8px;height:8px;border:1px solid var(--amber);flex:none;
+  }
+  .trust-copy{margin-top:48px;max-width:720px;color:var(--muted);font-size:16px}
+  .trust-copy b{color:var(--ink);font-weight:600}
+  @media (max-width:800px){.trust-grid{grid-template-columns:1fr 1fr}}
+  @media (max-width:520px){.trust-grid{grid-template-columns:1fr}}
+
+  /* ---------- 10 Team ---------- */
+  .ask-copy{
+    font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.02em;
+    font-size:clamp(28px,3.6vw,52px);line-height:1.15;max-width:960px;
+  }
+  .ask-copy em{font-style:italic;color:var(--amber)}
+  .ask-cta{margin-top:56px}
+
+  /* ---------- Footer ---------- */
+  footer{
+    border-top:1px solid var(--ink);padding:40px 0 48px;position:relative;
+  }
+  .foot-inner{
+    display:flex;flex-wrap:wrap;gap:24px;align-items:baseline;justify-content:space-between;
+  }
+  .foot-tag{font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:15px;color:var(--muted)}
+  .foot-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+  .foot-meta a{color:var(--muted)}
+  .foot-loop-close{
+    position:absolute;left:22px;top:-11px;
+  }
+  @media (max-width:1100px){.foot-loop-close{display:none}}
+</style>
+</head>
+<body>
+
+<svg id="loopline" aria-hidden="true" focusable="false"><path id="looppath" d=""/></svg>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="wordmark" href="#top" aria-label="LegacyLoop home">
+      <svg width="18" height="18" viewBox="0 0 18 18" role="img" aria-label="LegacyLoop amber loop glyph">
+        <path d="M9 1.5 A7.5 7.5 0 1 1 1.5 9" fill="none" stroke="#E4572E" stroke-width="1.5"/>
+        <circle cx="1.5" cy="9" r="1.6" fill="#E4572E"/>
+      </svg>
+      LEGACYLOOP
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#problem">Problem</a></li>
+        <li><a href="#platform">Platform</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#impact">Impact</a></li>
+        <li><a href="#team">Team</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-sm" href="#team">Request a Pilot</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap-bleed">
+      <p class="eyebrow reveal">Institutional Memory as a Service · ET AI Hackathon 2026</p>
+      <div class="hero-grid">
+        <div>
+          <h1 class="reveal">In the next decade, a quarter of India's industrial memory <em>retires.</em></h1>
+          <p class="hero-sub reveal">LegacyLoop is the memory layer that captures it — before it walks out the door.</p>
+          <div class="hero-ctas reveal">
+            <a class="btn" href="#team">Request a Pilot</a>
+            <a class="btn btn-ghost" href="#demo">Watch the 90-second demo →</a>
+          </div>
+        </div>
+        <div class="terminal reveal" role="img" aria-label="Live readout: 4.2 million veteran engineers retiring by 2035; average unplanned downtime cost 50 lakh rupees per hour; 35 percent of engineering hours lost to search.">
+          <div class="terminal-bar">
+            <span><span class="live-dot"></span>plantbrain · live</span>
+            <span>v0.9.4</span>
+          </div>
+          <div class="terminal-body">
+            <div class="t-row">
+              <div class="t-key">veteran_engineers_retiring_by_2035 →</div>
+              <div class="t-val"><span data-count="4.2" data-suffix="M" data-decimals="1">0.0M</span></div>
+            </div>
+            <div class="t-row">
+              <div class="t-key">avg_unplanned_downtime_cost →</div>
+              <div class="t-val">₹<span data-count="50" data-suffix="L" data-decimals="0">0L</span> <span style="font-size:13px;font-weight:400;color:var(--muted)">/ hr</span></div>
+            </div>
+            <div class="t-row">
+              <div class="t-key">engineering_hours_lost_to_search →</div>
+              <div class="t-val"><span data-count="35" data-suffix="%" data-decimals="0">0%</span><span class="caret">_</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="hero-rule" aria-hidden="true">
+    </div>
+  </section>
+
+  <!-- ============ 01 THE CLIFF ============ -->
+  <section class="block" id="problem">
+    <div class="wrap">
+      <p class="sec-mark reveal"><b>01</b> / The Cliff</p>
+      <h2 class="sec-title reveal">When a veteran engineer leaves, thirty years of judgment leaves with him.</h2>
+      <p class="sec-lede reveal">Not the manuals. The margins of the manuals. The failure he saw in 1998 that never made it into an SOP. That knowledge lives in one head — and that head is retiring.</p>
+      <div class="cliff-cards">
+        <div class="cliff-card reveal">
+          <div class="cliff-num">25<small>%</small></div>
+          <p class="cliff-label">of India's veteran industrial engineers retire within 10 years.</p>
+          <p class="cliff-src">src: DGFASLI workforce estimates</p>
+        </div>
+        <div class="cliff-card reveal" style="transition-delay:.08s">
+          <div class="cliff-num">7–12</div>
+          <p class="cliff-label">disconnected document systems inside a single large plant.</p>
+          <p class="cliff-src">src: NASSCOM–EY industrial digitisation survey</p>
+        </div>
+        <div class="cliff-card reveal" style="transition-delay:.16s">
+          <div class="cliff-num">18–22<small>%</small></div>
+          <p class="cliff-label">of unplanned downtime traced back to knowledge gaps.</p>
+          <p class="cliff-src">src: BIS Research, asset-heavy operations</p>
+        </div>
+      </div>
+      <p class="cliff-coda serif reveal">"The data exists. The intelligence to act on it does not."</p>
+    </div>
+  </section>
+
+  <!-- ============ 02 WHY EXISTING TOOLS FAIL ============ -->
+  <section class="block" style="padding-top:40px">
+    <div class="wrap">
+      <p class="sec-mark reveal"><b>02</b> / Why Existing Tools Fail</p>
+      <h2 class="sec-title reveal">The documents were never the problem. Reasoning over them was.</h2>
+      <div class="cmp-scroll reveal">
+        <table class="cmp">
+          <caption class="sr-only" style="position:absolute;left:-9999px">Capability comparison of SharePoint, Google Drive, generic RAG chatbots and LegacyLoop</caption>
+          <thead>
+            <tr>
+              <th scope="col">Capability</th>
+              <th scope="col">SharePoint</th>
+              <th scope="col">Google Drive</th>
+              <th scope="col">Generic RAG chatbot</th>
+              <th scope="col" class="us">LegacyLoop</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="row-label">Understands equipment tags</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td class="us"><span class="tick">✓</span></td></tr>
+            <tr><td class="row-label">Multi-hop reasoning across doc types</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td class="us"><span class="tick">✓</span></td></tr>
+            <tr><td class="row-label">Citation-grounded answers</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td class="us"><span class="tick">✓</span></td></tr>
+            <tr><td class="row-label">Works offline in the field</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td class="us"><span class="tick">✓</span></td></tr>
+            <tr><td class="row-label">Compliance-aware (OISD, Factory Act, PESO)</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td class="us"><span class="tick">✓</span></td></tr>
+            <tr><td class="row-label">Captures tacit knowledge from veterans</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td class="us"><span class="tick">✓</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="cmp-coda reveal">Filing cabinets don't reason. <span>LegacyLoop does.</span></p>
+    </div>
+  </section>
+
+  <!-- ============ 03 THE PLATFORM ============ -->
+  <section class="block" id="platform">
+    <div class="wrap-bleed">
+      <p class="sec-mark reveal"><b>03</b> / The Platform</p>
+      <h2 class="sec-title reveal">Four stages. One Loop.</h2>
+      <p class="sec-lede reveal">From a 1994 scanned P&amp;ID to a cited answer on a night-shift technician's phone. Click a stage to expand it.</p>
+
+      <div class="pillars">
+        <button class="pillar reveal" aria-expanded="false">
+          <span class="p-icon" role="img" aria-label="Schematic icon: documents entering a funnel">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#1B3A57" stroke-width="1.2">
+              <path d="M6 6h18l6 6v10H6z"/><path d="M24 6v6h6"/><path d="M10 26 22 36 34 26"/><path d="M22 36v4"/>
+            </svg>
+          </span>
+          <span class="p-step">stage 01</span>
+          <span class="p-label">Ingestion</span>
+          <span class="p-one">Every format the plant produces.</span>
+          <span class="p-body">Thirty years of scanned P&amp;IDs, handwritten log books, maintenance orders, SOPs and incident reports. Layout-aware parsing reads tables, stamps and revision blocks — not just the text between them. Four hours from box files to queryable memory.</span>
+          <span class="p-more" aria-hidden="true">+ expand</span>
+        </button>
+        <div class="pillar-arrow reveal" aria-hidden="true">
+          <svg viewBox="0 0 40 12"><path class="draw-line" d="M0 6 H32 M27 1 l6 5 -6 5"/></svg>
+        </div>
+        <button class="pillar reveal" aria-expanded="false" style="transition-delay:.06s">
+          <span class="p-icon" role="img" aria-label="Schematic icon: connected graph nodes">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#1B3A57" stroke-width="1.2">
+              <circle cx="10" cy="10" r="4"/><circle cx="34" cy="12" r="4"/><circle cx="14" cy="34" r="4"/><circle cx="34" cy="32" r="4"/>
+              <path d="M13 13 31 30 M14 10 30 12 M12 14 14 30 M34 16v12"/>
+            </svg>
+          </span>
+          <span class="p-step">stage 02</span>
+          <span class="p-label">Knowledge Graph + Vector Store</span>
+          <span class="p-one">Documents become a model of the plant.</span>
+          <span class="p-body">Equipment tags, failure modes, procedures and people are linked in a graph; every paragraph is embedded for semantic recall. The graph knows that P-204, "BFP-4" and "the pump Sharma sir rebuilt" are the same machine.</span>
+          <span class="p-more" aria-hidden="true">+ expand</span>
+        </button>
+        <div class="pillar-arrow reveal" aria-hidden="true">
+          <svg viewBox="0 0 40 12"><path class="draw-line" d="M0 6 H32 M27 1 l6 5 -6 5"/></svg>
+        </div>
+        <button class="pillar reveal" aria-expanded="false" style="transition-delay:.12s">
+          <span class="p-icon" role="img" aria-label="Schematic icon: branching decision paths">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#1B3A57" stroke-width="1.2">
+              <rect x="4" y="17" width="10" height="10"/><rect x="30" y="5" width="10" height="10"/><rect x="30" y="29" width="10" height="10"/>
+              <path d="M14 22 h6 M20 22 V10 h10 M20 22 V34 h10"/>
+            </svg>
+          </span>
+          <span class="p-step">stage 03</span>
+          <span class="p-label">Reasoning Agent</span>
+          <span class="p-one">Multi-hop answers, not search results.</span>
+          <span class="p-body">The agent walks the graph, pulls evidence from the vector store, and reasons across maintenance history, OEM manuals and incident reports before it answers. Every claim is cited. Where evidence is thin, it says so and escalates to a human.</span>
+          <span class="p-more" aria-hidden="true">+ expand</span>
+        </button>
+        <div class="pillar-arrow reveal" aria-hidden="true">
+          <svg viewBox="0 0 40 12"><path class="draw-line" d="M0 6 H32 M27 1 l6 5 -6 5"/></svg>
+        </div>
+        <button class="pillar reveal" aria-expanded="false" style="transition-delay:.18s">
+          <span class="p-icon" role="img" aria-label="Schematic icon: mobile handset with signal">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#1B3A57" stroke-width="1.2">
+              <rect x="13" y="6" width="18" height="32"/><path d="M13 32h18 M20 35h4"/><path d="M35 10a9 9 0 0 1 0 8 M38 7a13 13 0 0 1 0 14"/>
+            </svg>
+          </span>
+          <span class="p-step">stage 04</span>
+          <span class="p-label">Field Interface</span>
+          <span class="p-one">In the technician's pocket.</span>
+          <span class="p-body">Voice and WhatsApp in Hindi and English, plus a web console for engineers. Offline-capable on the shop floor. A night-shift operator asks in the language he thinks in and gets the veteran's answer — with sources attached.</span>
+          <span class="p-more" aria-hidden="true">+ expand</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 SEE IT WORK ============ -->
+  <section class="block" id="demo" style="padding-top:40px">
+    <div class="wrap">
+      <p class="sec-mark reveal"><b>04</b> / See It Work</p>
+      <h2 class="sec-title reveal">Ask it what you would ask the man who just retired.</h2>
+      <p class="sec-lede reveal">Three real field queries. Click one.</p>
+
+      <div class="demo-shell reveal">
+        <div class="demo-head">
+          <span class="path"><b>PLANTBRAIN</b> › /field-query</span>
+          <span><span class="live-dot"></span>connected</span>
+        </div>
+        <div class="demo-chips" role="group" aria-label="Sample field queries">
+          <button class="chip" data-q="p204">"Pump P-204 is vibrating at 6&nbsp;mm/s. What do I check?"</button>
+          <button class="chip" data-q="c11">"Why does compressor C-11 keep failing every 4 months?"</button>
+          <button class="chip" data-q="oisd">"Give me an OISD-compliant audit trail for the last confined-space entry."</button>
+        </div>
+        <div class="demo-response" id="demoResponse" aria-live="polite">
+          <p class="resp-placeholder">// select a query above — answers are grounded in this plant's own documents</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 ARCHITECTURE ============ -->
+  <section class="arch" id="architecture">
+    <div class="wrap-bleed">
+      <p class="sec-mark reveal"><b>05</b> / Architecture</p>
+      <h2 class="sec-title reveal">Built like plant equipment: inspectable, isolated, logged.</h2>
+      <p class="sec-lede reveal">No black boxes. Every answer can be traced from client to source paragraph.</p>
+
+      <div class="arch-diagram reveal" id="archDiagram" role="img" aria-label="System architecture diagram: documents flow through ingestion, layout parsing and entity extraction into a knowledge graph and vector store; a reasoning agent with a citation layer serves voice, WhatsApp and web clients; the whole system runs on-premise with a full audit log.">
+        <svg viewBox="0 0 1200 620" xmlns="http://www.w3.org/2000/svg">
+          <!-- deployment boundary -->
+          <rect x="20" y="20" width="1160" height="580" fill="none" stroke="#3D6489" stroke-width="1" stroke-dasharray="4 4"/>
+          <text x="40" y="48" class="arch-node-sub">ON-PREM DEPLOYMENT · plant network · no external egress</text>
+
+          <!-- Row 1: ingestion pipeline -->
+          <rect class="arch-node" x="60"  y="80" width="200" height="72"/>
+          <text class="arch-node-label" x="76" y="112">Document Ingestion</text>
+          <text class="arch-node-sub"   x="76" y="132">pdf · p&amp;id · logs · sops</text>
+
+          <rect class="arch-node" x="330" y="80" width="180" height="72"/>
+          <text class="arch-node-label" x="346" y="112">Layout Parser</text>
+          <text class="arch-node-sub"   x="346" y="132">tables · stamps · scans</text>
+
+          <rect class="arch-node" x="580" y="80" width="190" height="72"/>
+          <text class="arch-node-label" x="596" y="112">Entity Extractor</text>
+          <text class="arch-node-sub"   x="596" y="132">tags · failures · people</text>
+
+          <!-- Row 2: stores -->
+          <rect class="arch-node" x="330" y="230" width="210" height="72"/>
+          <text class="arch-node-label" x="346" y="262">Knowledge Graph</text>
+          <text class="arch-node-sub"   x="346" y="282">neo4j-style · typed edges</text>
+
+          <rect class="arch-node" x="610" y="230" width="190" height="72"/>
+          <text class="arch-node-label" x="626" y="262">Vector Store</text>
+          <text class="arch-node-sub"   x="626" y="282">chroma · dense embeddings</text>
+
+          <!-- Row 3: agent + citation -->
+          <rect class="arch-node" x="460" y="380" width="220" height="72"/>
+          <text class="arch-node-label" x="476" y="412">Reasoning Agent</text>
+          <text class="arch-node-sub"   x="476" y="432">llm · multi-hop · graph walk</text>
+
+          <rect class="arch-node" x="760" y="380" width="180" height="72"/>
+          <text class="arch-node-label" x="776" y="412">Citation Layer</text>
+          <text class="arch-node-sub"   x="776" y="432">doc · page · paragraph</text>
+
+          <!-- Row 4: clients + audit -->
+          <rect class="arch-node" x="330" y="510" width="290" height="60"/>
+          <text class="arch-node-label" x="346" y="537">Voice / WhatsApp / Web Clients</text>
+          <text class="arch-node-sub"   x="346" y="556">hindi + english · offline cache</text>
+
+          <rect class="arch-node" x="900" y="230" width="200" height="72"/>
+          <text class="arch-node-label" x="916" y="262">Audit Log</text>
+          <text class="arch-node-sub"   x="916" y="282">every query · every source</text>
+
+          <!-- amber wires -->
+          <path class="arch-wire" d="M260 116 H330"/>
+          <path class="arch-wire" d="M510 116 H580"/>
+          <path class="arch-wire" d="M675 152 V196 H435 V230"/>
+          <path class="arch-wire" d="M675 152 V230"/>
+          <path class="arch-wire" d="M435 302 V340 H540 V380"/>
+          <path class="arch-wire" d="M705 302 V340 H600 V380"/>
+          <path class="arch-wire" d="M680 416 H760"/>
+          <path class="arch-wire" d="M850 452 V488 H620 V540"/>
+          <path class="arch-wire" d="M940 380 V330 M940 330 V302" transform="translate(60,0)"/>
+          <path class="arch-wire" d="M940 416 H1000 V302"/>
+        </svg>
+      </div>
+
+      <div class="arch-cols">
+        <div class="arch-col reveal">
+          <h3>Hybrid Retrieval</h3>
+          <p>BM25 keyword search catches exact tag numbers and clause references; dense embeddings catch meaning. Results are fused and re-ranked before the agent sees them. Equipment tags are first-class entities, not tokens.</p>
+        </div>
+        <div class="arch-col reveal" style="transition-delay:.08s">
+          <h3>Grounded Reasoning</h3>
+          <p>The agent may only answer from retrieved evidence. Every sentence carries a document, page and paragraph reference. Below a confidence threshold, it declines and routes the query to a named senior engineer.</p>
+        </div>
+        <div class="arch-col reveal" style="transition-delay:.16s">
+          <h3>Air-Gapped Deployment</h3>
+          <p>The full stack — parser, graph, vector store, model — runs inside the plant network or a private VPC. No document, query or answer ever crosses the fence. The audit log records all of it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 THE LOOP IN PRACTICE ============ -->
+  <section class="block">
+    <div class="wrap">
+      <p class="sec-mark reveal"><b>06</b> / The Loop in Practice</p>
+      <h2 class="sec-title reveal">One engineer's memory, closed into the Loop.</h2>
+      <div class="timeline">
+        <div class="tl-card reveal">
+          <p class="tl-stamp">T+0 · day of exit interview</p>
+          <h3 class="tl-title serif">Capture</h3>
+          <p class="tl-copy">A veteran rotating-equipment engineer sits for a structured exit interview. His 12 years of notebooks, margin notes and job cards are ingested in 4 hours.</p>
+        </div>
+        <div class="tl-card reveal">
+          <p class="tl-stamp">T+6h · automatic</p>
+          <h3 class="tl-title serif">Reason</h3>
+          <p class="tl-copy">The graph links his notes to 400+ equipment tags and 8 SOPs without manual tagging. His 2019 compressor observation now sits next to the OEM manual it corrects.</p>
+        </div>
+        <div class="tl-card reveal">
+          <p class="tl-stamp">T+14 months · 03:12 IST</p>
+          <h3 class="tl-title serif">Deliver</h3>
+          <p class="tl-copy">A night-shift technician asks the assistant on WhatsApp about a vibrating pump. He gets the veteran's answer — with citations — in 40 seconds. Nobody was woken up.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 IMPACT & SCALE ============ -->
+  <section class="block" id="impact" style="padding-top:40px">
+    <div class="wrap">
+      <p class="sec-mark reveal"><b>07</b> / Impact &amp; Scale</p>
+      <h2 class="sec-title reveal">Modelled on plant data. Stated without adjectives.</h2>
+      <div class="impact-grid">
+        <div class="impact-block reveal">
+          <div class="impact-num">-64<span class="unit">%</span></div>
+          <p class="impact-label">Mean time to diagnose, first-year target</p>
+        </div>
+        <div class="impact-block reveal" style="transition-delay:.06s">
+          <div class="impact-num">₹18.4<span class="unit">Cr</span></div>
+          <p class="impact-label">Downtime saved, per plant per year</p>
+          <p class="impact-note">modelled · ₹50L/hr × avoided events</p>
+        </div>
+        <div class="impact-block reveal" style="transition-delay:.12s">
+          <div class="impact-num">12,400<span class="unit">+</span></div>
+          <p class="impact-label">Compliance evidence packages generated</p>
+        </div>
+        <div class="impact-block reveal" style="transition-delay:.18s">
+          <div class="impact-num">31<span class="unit">%</span></div>
+          <p class="impact-label">Engineer hours reclaimed from search</p>
+        </div>
+      </div>
+
+      <div class="industries reveal">
+        <div class="ind"><svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="Steel industry icon: rolled coil"><circle cx="15" cy="15" r="10"/><circle cx="15" cy="15" r="5"/><path d="M25 15h4"/></svg><span>STEEL</span></div>
+        <div class="ind"><svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="Oil and gas industry icon: derrick"><path d="M8 27 15 4l7 23 M10.5 19h9 M12 13.5h6 M4 27h22"/></svg><span>OIL &amp; GAS</span></div>
+        <div class="ind"><svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="Power industry icon: transmission bolt"><path d="M17 3 8 17h6l-2 10 10-15h-6z"/></svg><span>POWER</span></div>
+        <div class="ind"><svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="Pharma industry icon: flask"><path d="M12 4h6 M13.5 4v8L7 25a2 2 0 0 0 1.8 3h12.4A2 2 0 0 0 23 25l-6.5-13V4"/></svg><span>PHARMA</span></div>
+        <div class="ind"><svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="Cement industry icon: silo"><path d="M9 26V10a6 6 0 0 1 12 0v16 M6 26h18 M9 15h12"/></svg><span>CEMENT</span></div>
+        <div class="ind"><svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="Chemicals industry icon: reactor vessel"><rect x="9" y="7" width="12" height="16" rx="6"/><path d="M15 3v4 M15 23v4 M9 15H4 M21 15h5"/></svg><span>CHEMICALS</span></div>
+        <div class="ind"><svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="Mining industry icon: crossed picks"><path d="M5 25 25 5 M5 5l20 20 M3 9C7 4 12 3 12 3 M27 9c-4-5-9-6-9-6"/></svg><span>MINING</span></div>
+        <div class="ind"><svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="Infrastructure industry icon: bridge span"><path d="M3 21h24 M3 21c5-9 19-9 24 0 M8 21v-6 M15 21v-8 M22 21v-6 M3 25h24"/></svg><span>INFRA</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 08 BUSINESS VIABILITY ============ -->
+  <section class="block tam">
+    <div class="wrap">
+      <p class="sec-mark reveal"><b>08</b> / Business Viability</p>
+      <h2 class="sec-title reveal">The math is short.</h2>
+      <p class="tam-eq reveal">850 large industrial facilities <span class="op">×</span> ₹50L / plant / yr <span class="op">=</span> <span class="result">₹425 Cr India-only TAM</span></p>
+      <p class="tam-note reveal">"That is a floor, not a ceiling. Global asset-heavy industry is a ₹40,000 Cr adjacent market."</p>
+    </div>
+  </section>
+
+  <!-- ============ 09 TRUST ============ -->
+  <section class="block">
+    <div class="wrap">
+      <p class="sec-mark reveal"><b>09</b> / Trust</p>
+      <h2 class="sec-title reveal">Built for plants that cannot afford to be wrong.</h2>
+      <div class="trust-grid">
+        <div class="trust-badge reveal">Air-Gapped Deployment</div>
+        <div class="trust-badge reveal" style="transition-delay:.04s">On-Prem or VPC</div>
+        <div class="trust-badge reveal" style="transition-delay:.08s">Full Audit Log</div>
+        <div class="trust-badge reveal" style="transition-delay:.12s">Role-Based Access</div>
+        <div class="trust-badge reveal" style="transition-delay:.16s">Factory Act Aware</div>
+        <div class="trust-badge reveal" style="transition-delay:.2s">OISD &amp; PESO Aware</div>
+      </div>
+      <p class="trust-copy reveal"><b>No data leaves the plant.</b> Documents, queries and answers stay inside the plant network or a customer-controlled VPC. Every answer carries full lineage — which document, which page, which paragraph — recorded in an append-only audit log. High-stakes queries, such as anything touching confined-space entry or pressure-system limits, are flagged for human-in-the-loop review by a named senior engineer before action is taken.</p>
+    </div>
+  </section>
+
+  <!-- ============ 10 TEAM & THE ASK ============ -->
+  <section class="block" id="team">
+    <div class="wrap">
+      <p class="sec-mark reveal"><b>10</b> / Team &amp; The Ask</p>
+      <p class="ask-copy reveal">We are the LegacyLoop team at ET AI Hackathon 2026. We built this in four hours because Indian industry cannot wait ten years. <em>Give us the shot to build it for real.</em></p>
+      <div class="ask-cta reveal">
+        <a class="btn" href="mailto:pilot@legacyloop.in?subject=Pilot%20request%20%E2%80%94%20LegacyLoop">Request a Pilot →</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <svg class="foot-loop-close" width="22" height="22" viewBox="0 0 22 22" role="img" aria-label="The Loop closes: amber circle">
+    <circle cx="11" cy="11" r="9" fill="none" stroke="#E4572E" stroke-width="1"/>
+    <circle cx="11" cy="2" r="2" fill="#E4572E"/>
+  </svg>
+  <div class="wrap">
+    <div class="foot-inner">
+      <span class="wordmark" style="font-size:12px">
+        <svg width="14" height="14" viewBox="0 0 18 18" aria-hidden="true">
+          <path d="M9 1.5 A7.5 7.5 0 1 1 1.5 9" fill="none" stroke="#E4572E" stroke-width="1.5"/>
+          <circle cx="1.5" cy="9" r="1.6" fill="#E4572E"/>
+        </svg>
+        LEGACYLOOP
+      </span>
+      <span class="foot-tag">"The Memory Layer for Industrial India."</span>
+      <span class="foot-meta"><a href="mailto:pilot@legacyloop.in">pilot@legacyloop.in</a> · © 2026 LegacyLoop · Built at ET AI Hackathon</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Scroll reveals ---------- */
+  var revealables = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window && !reduced) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, {rootMargin:"0px 0px -8% 0px", threshold:0.05});
+    revealables.forEach(function(el){ io.observe(el); });
+  } else {
+    revealables.forEach(function(el){ el.classList.add("in"); });
+  }
+
+  /* ---------- Architecture wires draw on scroll ---------- */
+  var arch = document.getElementById("archDiagram");
+  if (arch) {
+    if ("IntersectionObserver" in window && !reduced) {
+      var aio = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (e.isIntersecting){ arch.classList.add("drawn"); aio.disconnect(); }
+        });
+      }, {threshold:0.25});
+      aio.observe(arch);
+    } else {
+      arch.classList.add("drawn");
+    }
+  }
+
+  /* ---------- Hero count-up ---------- */
+  var counters = document.querySelectorAll("[data-count]");
+  function runCounter(el){
+    var target = parseFloat(el.getAttribute("data-count"));
+    var suffix = el.getAttribute("data-suffix") || "";
+    var dec = parseInt(el.getAttribute("data-decimals") || "0", 10);
+    if (reduced){ el.textContent = target.toFixed(dec) + suffix; return; }
+    var start = null, dur = 1400;
+    function frame(ts){
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = (target * eased).toFixed(dec) + suffix;
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  counters.forEach(runCounter);
+
+  /* ---------- Pillar expand ---------- */
+  document.querySelectorAll(".pillar").forEach(function(p){
+    p.addEventListener("click", function(){
+      var open = p.getAttribute("aria-expanded") === "true";
+      p.setAttribute("aria-expanded", open ? "false" : "true");
+      var more = p.querySelector(".p-more");
+      if (more) more.textContent = open ? "+ expand" : "– collapse";
+    });
+  });
+
+  /* ---------- The Loop line ---------- */
+  var loopSvg = document.getElementById("loopline");
+  var loopPath = document.getElementById("looppath");
+  var loopLen = 0;
+  function buildLoop(){
+    if (!loopSvg || !loopPath) return;
+    var h = document.documentElement.scrollHeight;
+    var w = document.documentElement.clientWidth;
+    if (w < 1100) return;
+    loopSvg.setAttribute("width", w);
+    loopSvg.setAttribute("height", h);
+    loopSvg.setAttribute("viewBox", "0 0 " + w + " " + h);
+    var x = 32;
+    var footer = document.querySelector("footer");
+    var endY = footer ? footer.offsetTop + 10 : h - 60;
+    // start under the wordmark, run the left margin, close in a small loop at the footer
+    var d = "M " + (w/2) + " 0 " +
+            "L " + (w/2) + " 40 " +
+            "Q " + (w/2) + " 90 " + (x + 40) + " 110 " +
+            "Q " + x + " 122 " + x + " 170 " +
+            "L " + x + " " + (endY - 40) +
+            " a 10 10 0 1 0 0.1 0";
+    loopPath.setAttribute("d", d);
+    loopLen = loopPath.getTotalLength();
+    loopPath.style.strokeDasharray = loopLen;
+    loopPath.style.strokeDashoffset = reduced ? 0 : loopLen;
+    tickLoop();
+  }
+  var ticking = false;
+  function tickLoop(){
+    if (reduced || !loopLen) return;
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - doc.clientHeight;
+    var p = max > 0 ? Math.min(window.scrollY / max, 1) : 1;
+    loopPath.style.strokeDashoffset = loopLen * (1 - p);
+    ticking = false;
+  }
+  window.addEventListener("scroll", function(){
+    if (!ticking){ ticking = true; requestAnimationFrame(tickLoop); }
+  }, {passive:true});
+  window.addEventListener("resize", function(){ requestAnimationFrame(buildLoop); });
+  buildLoop();
+
+  /* ---------- Demo terminal ---------- */
+  // Answer blocks: {tag:"p"|"li", seg:[["t","text"],["c","CITATION"]]}
+  var ANSWERS = {
+    p204: {
+      q: 'Pump P-204 is vibrating at 6 mm/s. What do I check?',
+      meta: 'confidence: 94% · retrieval: hybrid (bm25 + dense) · latency: 1.2s',
+      sources: ["MO-P204-2024.pdf","IR-2023-118.pdf","SOP-ROT-011.pdf","ISO-10816-3.pdf","VIB-LOG-Q2.xlsx"],
+      blocks: [
+        {tag:"p", seg:[["t","6 mm/s RMS on P-204 sits in ISO 10816 Zone C — acceptable for short-term operation only. Do not trip the pump yet. Work this sequence:"]]},
+        {tag:"li", seg:[["t","Confirm the reading. Re-measure at both bearing housings — horizontal, vertical and axial. The DE housing on P-204 reads roughly 1.5 mm/s high since the 2024 baseplate repair; a single-point reading has misled crews before. "],["c","MO-P204-2024.pdf · p.12"]]},
+        {tag:"li", seg:[["t","Check suction strainer ΔP. P-204 has a documented history of strainer fouling that presents as 5–7 mm/s vibration. If ΔP exceeds 0.4 bar, cavitation is your likely source — clean the strainer before touching anything else. "],["c","IR-2023-118.pdf · p.4"]]},
+        {tag:"li", seg:[["t","Inspect coupling and alignment. Last laser alignment was 14 Mar 2026. If the hot-alignment check was skipped, thermal growth on the discharge side produces exactly this signature. "],["c","ALIGN-LOG-P204.xlsx · row 31"]]},
+        {tag:"li", seg:[["t","Verify bearing lubrication. The SOP specifies ISO VG 68 at 40 ml per housing; the 2024 overhaul note flags over-greasing as a repeat cause of elevated readings. "],["c","SOP-ROT-011.pdf · p.3"]]},
+        {tag:"p", seg:[["t","If vibration trends past 7.1 mm/s, or rises across two consecutive readings, escalate to the rotating-equipment engineer and line up standby pump P-205. "],["c","ISO-10816-3.pdf · p.7"]]}
+      ]
+    },
+    c11: {
+      q: 'Why does compressor C-11 keep failing every 4 months?',
+      meta: 'confidence: 91% · retrieval: hybrid (bm25 + dense) · latency: 1.4s',
+      sources: ["IR-C11-SUMMARY.pdf","CAL-2024-LT1104.pdf","HANDOVER-RIYER.pdf","SOP-COMP-004.pdf"],
+      blocks: [
+        {tag:"p", seg:[["t","C-11 has failed 6 times in 26 months. The interval is not random — the incident record shows a pattern:"]]},
+        {tag:"li", seg:[["t","Five of the six failures are second-stage discharge valve failures, each within 2–5 weeks of a monsoon-season restart. "],["c","IR-C11-SUMMARY.pdf · p.2"]]},
+        {tag:"li", seg:[["t","Root cause traces to liquid carryover from the suction KO drum. Level transmitter LT-1104 drifted +12% in the 2024 audit and was recalibrated — but the drum's demister pad has never been inspected. "],["c","CAL-2024-LT1104.pdf · p.1"]]},
+        {tag:"li", seg:[["t","R. Iyer's handover notes (34 years on this train, retired 2025) flag interstage cooler fouling every monsoon: \"If interstage temperature climbs past 52 °C, pull the cooler before the valve fails — not after.\" "],["c","HANDOVER-RIYER.pdf · p.19"]]},
+        {tag:"li", seg:[["t","Recommended actions: verify LT-1104 calibration this week, inspect the demister pad at the next maintenance window, and trend interstage temperature daily through September. "],["c","SOP-COMP-004.pdf · p.6"]]},
+        {tag:"p", seg:[["t","The 4-month interval is the cooler-fouling cycle, not a valve quality problem. Fix the carryover and the valve failures stop."]]}
+      ]
+    },
+    oisd: {
+      q: 'Give me an OISD-compliant audit trail for the last confined-space entry.',
+      meta: 'confidence: 97% · retrieval: hybrid (bm25 + dense) · latency: 0.9s',
+      sources: ["PERMIT-CSE-0142.pdf","GASLOG-0142.pdf","BLINDLIST-V303.pdf","AUDIT-PKG-0142.pdf"],
+      blocks: [
+        {tag:"p", seg:[["t","Last confined-space entry: permit CSE-2026-0142, vessel V-303 (column boot), issued 18 Jul 2026 at 06:40. Evidence assembled below."]]},
+        {tag:"li", seg:[["t","Gas testing per OISD-STD-105 Cl. 6.3: O₂ 20.9%, LEL 0%, H₂S 0 ppm — logged 06:12, retested 10:00 and 14:00, all within limits. "],["c","GASLOG-0142.pdf · p.1"]]},
+        {tag:"li", seg:[["t","Positive isolation: 4 blinds installed and verified against the blind list; LOTO applied on agitator drive M-303. "],["c","BLINDLIST-V303.pdf · p.2"]]},
+        {tag:"li", seg:[["t","Attendant posted for the full duration (S. Kumar, badge 4471). Entry log shows 3 entrants, each with a signed rescue-plan briefing. "],["c","PERMIT-CSE-0142.pdf · p.3"]]},
+        {tag:"li", seg:[["t","Permit closed 16:55 with area-owner sign-off. No deviations recorded. The package satisfies OISD-STD-105 Cl. 6–9 and Factory Act Rule 36 documentation requirements. "],["c","AUDIT-PKG-0142.pdf · p.1"]]},
+        {tag:"p", seg:[["t","Full evidence package — 11 documents, hash-chained — is export-ready for the auditor."]]}
+      ]
+    }
+  };
+
+  var respEl = document.getElementById("demoResponse");
+  var typeTimer = null;
+  var CHAR_MS = 18;
+
+  function docThumb(name){
+    var d = document.createElement("div");
+    d.className = "src-doc";
+    d.innerHTML =
+      '<svg viewBox="0 0 96 120" role="img" aria-label="Document thumbnail: ' + name + '">' +
+      '<rect x="0" y="0" width="96" height="120" fill="#FFFFFF"/>' +
+      '<path d="M70 0 96 0 96 26" fill="#EFEDE6"/><path d="M70 0 96 26 70 26 Z" fill="#F5F3EE" stroke="#4A4A4A" stroke-width="0.6"/>' +
+      '<g stroke="#4A4A4A" stroke-width="1"><line x1="12" y1="34" x2="60" y2="34"/><line x1="12" y1="46" x2="84" y2="46"/><line x1="12" y1="56" x2="84" y2="56"/><line x1="12" y1="66" x2="70" y2="66"/><line x1="12" y1="84" x2="84" y2="84"/><line x1="12" y1="94" x2="52" y2="94"/></g>' +
+      '<rect x="12" y="12" width="30" height="8" fill="none" stroke="#1B3A57" stroke-width="1"/>' +
+      '</svg>' +
+      '<div class="src-name">' + name + '</div>';
+    return d;
+  }
+
+  function renderAnswer(key){
+    var a = ANSWERS[key];
+    if (!a) return;
+    if (typeTimer){ clearTimeout(typeTimer); typeTimer = null; }
+    document.querySelectorAll(".chip").forEach(function(c){
+      c.classList.toggle("active", c.getAttribute("data-q") === key);
+    });
+
+    respEl.innerHTML = "";
+    respEl.setAttribute("aria-busy", "true");
+
+    var q = document.createElement("p");
+    q.className = "resp-q";
+    q.innerHTML = '<b>field-tech@unit-3</b> › ' + a.q;
+    respEl.appendChild(q);
+
+    var body = document.createElement("div");
+    body.className = "resp-body";
+    respEl.appendChild(body);
+
+    var caret = document.createElement("span");
+    caret.className = "type-caret";
+    caret.textContent = "▍";
+    caret.setAttribute("aria-hidden","true");
+
+    // Flatten blocks into a token queue
+    var queue = [];
+    var listEl = null;
+    a.blocks.forEach(function(b){
+      queue.push({op:"open", tag:b.tag});
+      b.seg.forEach(function(s){
+        if (s[0] === "t") queue.push({op:"text", text:s[1]});
+        else queue.push({op:"chip", text:s[1]});
+      });
+      queue.push({op:"close", tag:b.tag});
+    });
+
+    var curEl = null, qi = 0, ci = 0;
+
+    function finishExtras(){
+      caret.remove();
+      var srcWrap = document.createElement("div");
+      srcWrap.className = "resp-sources";
+      var lbl = document.createElement("p");
+      lbl.className = "src-label";
+      lbl.textContent = "sources used";
+      srcWrap.appendChild(lbl);
+      var strip = document.createElement("div");
+      strip.className = "src-strip";
+      a.sources.forEach(function(s){ strip.appendChild(docThumb(s)); });
+      srcWrap.appendChild(strip);
+      respEl.appendChild(srcWrap);
+      var meta = document.createElement("p");
+      meta.className = "resp-meta";
+      meta.innerHTML = a.meta.replace(/confidence: (\d+%)/, 'confidence: <span class="ok">$1</span>');
+      respEl.appendChild(meta);
+      respEl.setAttribute("aria-busy", "false");
+    }
+
+    function instant(){
+      // reduced-motion or fallback: render everything at once
+      a.blocks.forEach(function(b){
+        var host;
+        if (b.tag === "li"){
+          if (!listEl){ listEl = document.createElement("ol"); body.appendChild(listEl); }
+          host = document.createElement("li"); listEl.appendChild(host);
+        } else {
+          listEl = null;
+          host = document.createElement("p"); body.appendChild(host);
+        }
+        b.seg.forEach(function(s){
+          if (s[0] === "t") host.appendChild(document.createTextNode(s[1]));
+          else { var ch = document.createElement("span"); ch.className = "cite"; ch.textContent = "[" + s[1] + "]"; host.appendChild(ch); }
+        });
+      });
+      finishExtras();
+    }
+
+    if (reduced){ instant(); return; }
+
+    function step(){
+      if (qi >= queue.length){ finishExtras(); return; }
+      var tk = queue[qi];
+      if (tk.op === "open"){
+        if (tk.tag === "li"){
+          if (!listEl){ listEl = document.createElement("ol"); body.appendChild(listEl); }
+          curEl = document.createElement("li"); listEl.appendChild(curEl);
+        } else {
+          listEl = null;
+          curEl = document.createElement("p"); body.appendChild(curEl);
+        }
+        curEl.appendChild(caret);
+        qi++; ci = 0;
+        typeTimer = setTimeout(step, CHAR_MS);
+      } else if (tk.op === "text"){
+        if (ci < tk.text.length){
+          // type in small bursts of 1–2 chars for a natural cadence
+          var burst = tk.text.charAt(ci) === " " ? 2 : 1;
+          var chunk = tk.text.substr(ci, burst);
+          curEl.insertBefore(document.createTextNode(chunk), caret);
+          ci += burst;
+          typeTimer = setTimeout(step, CHAR_MS);
+        } else { qi++; ci = 0; step(); }
+      } else if (tk.op === "chip"){
+        var ch = document.createElement("span");
+        ch.className = "cite";
+        ch.textContent = "[" + tk.text + "]";
+        curEl.insertBefore(ch, caret);
+        qi++;
+        typeTimer = setTimeout(step, CHAR_MS * 6);
+      } else { // close
+        qi++; ci = 0;
+        typeTimer = setTimeout(step, CHAR_MS * 8);
+      }
+      // auto-scroll the response panel to keep latest content visible
+      respEl.scrollTop = respEl.scrollHeight;
+    }
+    step();
+  }
+
+  document.querySelectorAll(".chip").forEach(function(c){
+    c.addEventListener("click", function(){ renderAnswer(c.getAttribute("data-q")); });
+  });
+})();
+</script>
+</body>
+</html>
